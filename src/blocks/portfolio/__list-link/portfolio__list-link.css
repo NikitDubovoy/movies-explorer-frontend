@@ -1,0 +1,15 @@
+.portfolio__list-link {
+    font-size: 28px;
+    line-height: 60px;
+    font-weight: 400;
+    color: #000;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 320px){
+    .portfolio__list-link{
+        font-size: 18px;
+        letter-spacing: -0.7px;
+        line-height: 28px;
+    }
+ }

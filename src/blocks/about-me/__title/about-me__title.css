@@ -1,0 +1,23 @@
+.about-me__title {
+    font-size: 22px;
+    font-weight: 400;
+    max-width: 100%;
+    margin: 1px 0 0;
+    padding: 110px 0 23px;
+    border-bottom: 1px solid #000;
+    letter-spacing: -1px;
+}
+
+@media screen and (max-width: 768px){
+    .about-me__title{
+        padding: 42px 0 23px;  
+    }
+ }
+ 
+@media screen and (max-width: 320px){
+    .about-me__title{
+        padding: 126px 0 27px;
+        font-size: 18px;
+        letter-spacing: -0.5px;
+    }
+ }

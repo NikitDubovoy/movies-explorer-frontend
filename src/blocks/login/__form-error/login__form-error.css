@@ -1,0 +1,7 @@
+.login__form-error {
+    font-size: 10px;
+    color: #FF3055;
+    height: 12px;
+    margin-top: 10px;
+    visibility: hidden;
+}

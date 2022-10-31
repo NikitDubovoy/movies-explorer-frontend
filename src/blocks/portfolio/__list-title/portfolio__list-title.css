@@ -1,0 +1,14 @@
+.portfolio__list-title {
+    font-size: 28px;
+    line-height: 50px;
+    font-weight: 400;
+    margin: 0;
+}
+
+@media screen and (max-width: 320px){
+    .portfolio__list-title{
+        font-size: 18px;
+        line-height: 28px;
+        letter-spacing: -0.7px;
+    }
+ }

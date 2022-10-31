@@ -1,0 +1,17 @@
+.not-found__button-back {
+    font-size: 14px;
+    color: #3456F3;
+    text-decoration: none;
+    letter-spacing: 0;
+    margin-top: 186px;
+    border: none;
+    background-color: initial;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 320px) {
+    .not-found__button-back{
+        font-size: 12px;
+        margin-top: 285px;
+    } 
+}

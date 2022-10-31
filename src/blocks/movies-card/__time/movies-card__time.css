@@ -1,0 +1,6 @@
+.movies-card__time {
+    grid-area: time;
+    font-size: 11px;
+    color: #a1a1a1;
+    margin: 0 0 0 16px;
+}

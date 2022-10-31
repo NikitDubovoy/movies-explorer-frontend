@@ -1,0 +1,12 @@
+.movies-card-list__button-more {
+    width: calc(100% - 140px);
+    margin: auto;
+    height: 36px;
+    display: none;
+    border: none;
+    border-radius: 6px;
+    background-color: #F9F9F9;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
