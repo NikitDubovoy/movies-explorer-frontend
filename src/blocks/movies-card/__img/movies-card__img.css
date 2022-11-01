@@ -1,0 +1,6 @@
+.movies-card__img {
+    border-start-start-radius: 6px;
+    grid-area: image;
+    max-width: 100%;
+    max-height: 100%;
+}

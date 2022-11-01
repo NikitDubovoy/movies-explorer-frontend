@@ -1,0 +1,12 @@
+.portfolio__title {
+    font-size: 18px;
+    font-weight: 400;
+    color: #A0A0A0;
+}
+
+@media screen and (max-width: 320px){
+    .portfolio__title{
+        font-size: 14px;
+        line-height: 20px;
+    }
+ }

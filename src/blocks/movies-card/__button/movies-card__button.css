@@ -1,0 +1,14 @@
+.movies-card__button {
+    grid-area: like;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    margin-left: 16px;
+    transition: 0.3s;
+}

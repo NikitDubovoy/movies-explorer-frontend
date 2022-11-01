@@ -1,0 +1,23 @@
+.about__title {
+    font-size: 22px;
+    font-weight: 400;
+    max-width: 100%;
+    margin: 112px 0 0;
+    padding-bottom: 23px;
+    border-bottom: 1px solid #000;
+    letter-spacing: -1px;
+}
+
+@media screen and (max-width: 768px){
+    .about__title{
+        margin: 92px 0 0;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .about__title{
+        margin: 72px 0 0;
+        font-size: 18px;
+        padding-bottom: 27px;
+    }
+ }

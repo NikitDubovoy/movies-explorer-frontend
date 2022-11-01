@@ -1,0 +1,21 @@
+.about-me__context {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    padding-bottom: 25px;
+    margin: 0;
+    letter-spacing: 0px;
+}
+
+@media screen and (max-width: 768px){
+    .about-me__context{
+        font-size: 12px;
+        padding-bottom: 19px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .about-me__context{
+        letter-spacing: -0.6px;
+    }
+ }

@@ -1,0 +1,21 @@
+.about-me {
+    max-width: 100%;
+    min-height: 634px;
+    background-color: #fff;
+    padding: 0 70px;
+    display: block;
+}
+
+@media screen and (max-width: 768px){
+    .about-me{
+        padding: 0 50px;
+        min-height: 535px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .about-me{
+        padding: 0 14px;
+        min-height: 535px;
+    }
+ }

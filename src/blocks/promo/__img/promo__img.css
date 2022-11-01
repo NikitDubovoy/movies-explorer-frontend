@@ -1,0 +1,25 @@
+.promo__img {
+   max-width:  722px;
+   max-height: 244px;
+   background-repeat: no-repeat;
+   margin-bottom: 60px;
+   position: absolute;
+   bottom: 0;
+   right: 70px;
+}
+
+@media screen and (max-width: 800px){
+   .promo__img{
+      max-width: 689px;
+      margin-bottom: 68px;
+      right: 44px;
+   }
+}
+
+@media screen and (max-width: 500px){
+   .promo__img{
+      max-width: 689px;
+      margin-bottom: 38px;
+      right: -184px;
+   }
+}

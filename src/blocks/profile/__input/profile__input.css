@@ -1,0 +1,13 @@
+.profile__input{
+    text-align: end;
+    width: 50%;
+    height: 14px;
+    border: none;
+    padding: 2px 0;
+    margin: 0;
+}
+
+.profile__input:focus{
+    outline: 0;
+    outline-offset: 0;
+}
