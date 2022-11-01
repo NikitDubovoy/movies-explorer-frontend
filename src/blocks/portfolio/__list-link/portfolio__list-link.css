@@ -4,6 +4,11 @@
     font-weight: 400;
     color: #000;
     text-decoration: none;
+    display:inline-flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }
 
 @media screen and (max-width: 320px){

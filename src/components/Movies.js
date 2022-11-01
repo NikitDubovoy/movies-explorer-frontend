@@ -6,13 +6,20 @@ import MoviesCardList from "./MoviesCardList";
 
 function Movies() {
   return (
-    <section className="movies">
+    <div className="page">
       <Header leftNav={true} />
-      <SearchForm />
-      <MoviesCardList />
-      <button className="movies-card-list__button-more">Ещё</button>
+      <main className="movies">
+        <SearchForm />
+        <MoviesCardList />
+        <button
+          type="button"
+          className="movies-card-list__button-more movies-card-list__button-more_active"
+        >
+          Ещё
+        </button>
+      </main>
       <Footer />
-    </section>
+    </div>
   );
 }
 

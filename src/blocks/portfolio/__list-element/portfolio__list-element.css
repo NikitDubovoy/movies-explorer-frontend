@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-bottom: 9px;
+    padding-bottom: 14px;
     border-bottom: 1px solid #E6E6E6;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .portfolio__list-element:last-child {

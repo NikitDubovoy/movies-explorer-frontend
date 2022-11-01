@@ -3,13 +3,11 @@ import "../page/index.css";
 import { Link } from "react-router-dom";
 import PopupMenu from "./PopupMenu";
 
-import logo from "../images/Header/logo.svg";
 import icon from "../images/Header/icon.svg";
 
 function Header(props) {
   const isMain = props.main;
   const isLeftNav = props.leftNav;
-  const isSaved = props.isSaved;
 
   const [isBurgerMenu, setBurgerMenu] = React.useState(false);
 
@@ -27,10 +25,6 @@ function Header(props) {
 
   const headerClassName = `${isMain ? "header header_dark-theme" : "header"}`;
 
-  const navLinkSavedClassName = `${
-    isSaved ? navLinkMoviesClassName : "header__nav-link"
-  }`;
-
   const navLinkSigninClassName = `header__nav-link_signin ${navLinkMainClassName}`;
   const navLinkAccountClassName = `${
     isMain ? "header__account" : "header__account header__account_active"
@@ -43,11 +37,11 @@ function Header(props) {
   return (
     <header className={headerClassName}>
       <nav className="header__nav header__nav_left">
-        <img src={logo} className="header__logo" alt="Логотип"></img>
+        <Link to="/" className="header__logo"></Link>
         <Link to="/movies" className={navLinkMoviesClassName}>
           Фильмы
         </Link>
-        <Link to="/saved-movies" className={navLinkSavedClassName}>
+        <Link to="/saved-movies" className={navLinkMoviesClassName}>
           Сохранённые фильмы
         </Link>
       </nav>
@@ -67,6 +61,7 @@ function Header(props) {
         name="burger"
         className={burgerClassName}
         onClick={handleBurgerMenu}
+        type="button"
       ></button>
       <PopupMenu
         onBurgerMenu={isBurgerMenu}

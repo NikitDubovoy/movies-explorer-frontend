@@ -10,7 +10,11 @@ function PopupMenu(props) {
       }
     >
       <div className="popup-menu__block">
-        <button className="popup-menu__close" onClick={props.onClose}></button>
+        <button
+          type="button"
+          className="popup-menu__close"
+          onClick={props.onClose}
+        ></button>
         <nav className="popup-menu__nav">
           <Link to="/" className="popup-menu__link">
             Главная

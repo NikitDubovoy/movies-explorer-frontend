@@ -6,13 +6,20 @@ import MoviesCardList from "./MoviesCardList";
 
 function SavedMovies() {
   return (
-    <section className="saved-movies">
+    <div className="page">
       <Header leftNav={true} isSaved={true} />
-      <SearchForm />
-      <MoviesCardList isSaved={true} />
-      <button className="movies-card-list__button-more">Ещё</button>
+      <main className="saved-movies">
+        <SearchForm />
+        <MoviesCardList isSaved={true} />
+        <button
+          type="button"
+          className="movies-card-list__button-more movies-card-list__button-more_active"
+        >
+          Ещё
+        </button>
+      </main>
       <Footer />
-    </section>
+    </div>
   );
 }
 

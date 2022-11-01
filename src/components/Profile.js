@@ -15,8 +15,13 @@ function Profile() {
           <span className="profile__label-text">E-mail</span>
           <input className="profile__input"></input>
         </label>
-        <button className="profile__button">Редактировать</button>
-        <button className="profile__button_exit profile__button">
+        <button type="submit" className="profile__button">
+          Редактировать
+        </button>
+        <button
+          button="button"
+          className="profile__button_exit profile__button"
+        >
           Выйти из аккаунта
         </button>
       </form>

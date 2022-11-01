@@ -10,3 +10,19 @@
     font-weight: 500;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px){
+    .movies-card-list__button-more {
+        width: calc(100% - 60px);
+        margin-top: 83px;
+        margin-bottom: 115px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .movies-card-list__button-more {
+        width: calc(100% - 10px);
+        margin-top: 79px;
+        margin-bottom: 137px;
+    }
+ }

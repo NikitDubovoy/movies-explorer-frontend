@@ -11,15 +11,17 @@ import Header from "./Header";
 
 function Main(props) {
   return (
-    <main className="main">
-      <Header main={true} />
-      <Promo />
-      <About />
-      <Techs />
-      <AboutMe />
-      <Portfolio />
-      <Footer />
-    </main>
+    <div className="page">
+      <main className="main">
+        <Header main={true} />
+        <Promo />
+        <About />
+        <Techs />
+        <AboutMe />
+        <Portfolio />
+        <Footer />
+      </main>
+    </div>
   );
 }
 

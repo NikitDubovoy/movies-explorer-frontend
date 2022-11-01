@@ -8,7 +8,9 @@ function SearchForm() {
         placeholder="Фильм"
         type="text"
       ></input>
-      <button className="search-form__button">Найти</button>
+      <button type="button" className="search-form__button">
+        Найти
+      </button>
       <label className="search-form__label-text">
         <input type="checkbox" className="search-form__checkbox" />{" "}
         <div class="search-form__checkbox-checkmark"></div>

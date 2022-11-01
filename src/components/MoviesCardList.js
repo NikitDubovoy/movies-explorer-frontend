@@ -8,6 +8,10 @@ function MoviesCardList(props) {
       <MoviesCard isSaved={props.isSaved} />
       <MoviesCard isSaved={props.isSaved} />
       <MoviesCard isSaved={props.isSaved} />
+      <MoviesCard isSaved={props.isSaved} />
+      <MoviesCard isSaved={props.isSaved} />
+      <MoviesCard isSaved={props.isSaved} />
+      <MoviesCard isSaved={props.isSaved} />
     </div>
   );
 }

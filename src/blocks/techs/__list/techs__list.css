@@ -3,16 +3,18 @@
     list-style-type: none;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0;
-    max-width: 688px;
-    column-gap: 15px;
+    min-width: 688px;
+    column-gap: 10px;
 }
 
 @media screen and (max-width: 768px){
     .techs__list{
         min-width: 200px;
         padding-bottom: 20px;
+        flex-wrap: wrap;
+        row-gap: 10px;
     }
  }
 

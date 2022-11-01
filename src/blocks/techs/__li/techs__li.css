@@ -1,11 +1,11 @@
 .techs__li{
     font-size: 14px;
     width: 93px;
-    height: 38px;
-    padding-top: 22px;
+    height: 15px;
+    padding: 22px 0;
     border-radius: 10px;
     background-color: #E8E8E8;
-    margin-right: 10px;
     text-align: center;
     margin: 0;
+    display: block;
 }
