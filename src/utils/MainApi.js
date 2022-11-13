@@ -62,6 +62,6 @@ class Api {
     });
   }
 }
-const mainApi = new Api("http://localhost:3001");
+const mainApi = new Api("https://api.movies2.nomoredomains.icu");
 
 export default mainApi;
