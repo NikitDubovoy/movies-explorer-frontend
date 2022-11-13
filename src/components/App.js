@@ -120,7 +120,6 @@ function App() {
     Auth.register(name, email, password)
       .then((res) => {
         if (res) {
-          console.log(res);
           navigate("/signin");
         }
       })
