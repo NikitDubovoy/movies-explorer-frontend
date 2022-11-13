@@ -1,19 +1,30 @@
 import "../page/index.css";
 
-function SearchForm() {
+function SearchForm(props) {
+  function handleSubmitSearch(e) {
+    e.preventDefault();
+    props.onSubmit(props.movies, props.setSearchMovie);
+  }
   return (
-    <form className="search-form">
+    <form className="search-form" onSubmit={handleSubmitSearch}>
       <input
         className="search-form__input"
         placeholder="Фильм"
         type="text"
+        name="search"
+        onChange={props.onValue}
       ></input>
-      <button type="button" className="search-form__button">
+      <button type="submit" className="search-form__button">
         Найти
       </button>
       <label className="search-form__label-text">
-        <input type="checkbox" className="search-form__checkbox" />{" "}
-        <div class="search-form__checkbox-checkmark"></div>
+        <input
+          type="checkbox"
+          className="search-form__checkbox"
+          onChange={props.onCheckbox}
+          checked={props.checked}
+        />{" "}
+        <div className="search-form__checkbox-checkmark"></div>
         Короткометражки
       </label>
     </form>

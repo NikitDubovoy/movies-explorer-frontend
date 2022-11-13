@@ -10,4 +10,10 @@
     grid-area: button;
     border: none;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-form__button:hover {
+    background-color: rgba(52, 86, 243, 0.8);
+    transition: 0.3s;
 }

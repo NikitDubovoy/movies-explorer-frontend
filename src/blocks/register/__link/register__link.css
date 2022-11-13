@@ -1,4 +1,10 @@
 .register__link {
     color: #3456F3;
     text-decoration: none;
+    transition: 0.3s;
+}
+
+.register__link:hover {
+    color: rgba(52, 86, 243, 0.8);
+    transition: 0.3s;
 }

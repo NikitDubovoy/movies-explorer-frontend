@@ -2,7 +2,7 @@
     width: calc(100% - 140px);
     height: 100%;
     flex-wrap: wrap;
-    min-height: 45vh;
+    min-height: 37vh;
     display: flex;
     flex-direction: row;
     row-gap: 37px;

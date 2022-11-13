@@ -1,6 +1,5 @@
 .login__form-button {
     width: 100%;
-    margin-top: 179px;
     background-color: #3456F3;
     height: 45px;
     border-radius: 3px;
@@ -10,7 +9,21 @@
     border: none;
     cursor: pointer;
     letter-spacing: 1.2px;
+    transition: 0.3s;
 }
+
+.login__form-button:hover {
+    background-color: rgba(52, 86, 243, 0.8);
+    transition: 0.3s;
+}
+
+.login__form-button:disabled {
+    background-color: #F8F8F8;
+    color: #C2C2C2;
+    cursor: default;
+}
+
+
 
 @media screen and (max-width: 454px){
     .login__form-button{

@@ -5,6 +5,13 @@
     margin-left: 30px;
     text-decoration: none;
     color: inherit;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.header__nav-link:hover {
+    opacity: 0.7;
+    transition: 0.3s;
 }
 
 @media screen and (max-width: 320px){

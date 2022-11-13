@@ -13,7 +13,7 @@ function Main(props) {
   return (
     <div className="page">
       <main className="main">
-        <Header main={true} />
+        <Header isLoggedIn={props.isLoggedIn} />
         <Promo />
         <About />
         <Techs />

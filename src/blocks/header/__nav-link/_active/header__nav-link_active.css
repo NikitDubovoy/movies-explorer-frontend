@@ -1,5 +1,5 @@
 .header__nav-link_active {
-    display: inline;
+    font-weight: 500;
 }
 
 @media screen and (max-width: 768px){
