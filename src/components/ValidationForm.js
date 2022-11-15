@@ -11,7 +11,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
   const [errorSpanClassName, setErrorSpanClassName] = React.useState("");
 
   React.useEffect(() => {
-    if (errorMessages.length !== undefined || errorMessages.length !== 0) {
+    if (errorMessages.length != 0) {
       const message = errorMessages[0];
       setErrorText(message);
     } else {
