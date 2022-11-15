@@ -36,7 +36,7 @@ export const authorize = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   }).then((response) => {
-    if (response.status === 200) {
+    if (response.status === 200 || response.token !== undefined) {
       /*  localStorage.setItem("token", response.token); */
       localStorage.setItem("loggedIn", true);
     } else {

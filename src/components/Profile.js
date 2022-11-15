@@ -24,7 +24,7 @@ function Profile(props) {
   const name = useValieInput(
     userName,
     {
-      isMaxLength: 5,
+      isMaxLength: 30,
       isMinLength: 2,
       isValueEquality: userName,
     },
@@ -33,12 +33,13 @@ function Profile(props) {
   const email = useValieInput(
     userEmail,
     {
+      isValueEquality: userEmail,
       isEmail: false,
     },
     classNameText
   );
   React.useEffect(() => {
-    if (email.value != userEmail || name.value != userName) {
+    if (email.value != userEmail && name.value != userName) {
       setButtonClassName("profile__button");
       setExitButtonClassName("profile__button");
       setSaveButtonClassName(
@@ -46,14 +47,6 @@ function Profile(props) {
       );
     }
   }, [name.isFocus, name.isValidate, email.isFocus, email.isValidate]);
-
-  function handleNameChange(e) {
-    setUserName(e.target.value);
-  }
-
-  function handleEmailChange(e) {
-    setUserEmail(e.target.value);
-  }
 
   function handleSubmitProfile(e) {
     e.preventDefault();
@@ -102,7 +95,7 @@ function Profile(props) {
 
           <button
             type="submit"
-            disabled={name.isValidate || email.isValidate}
+            disabled={name.isValidate && email.isValidate}
             className={saveButtonClassName}
           >
             Сохранить
