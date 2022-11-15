@@ -215,7 +215,7 @@ function App() {
   React.useEffect(() => {
     getMovies();
     getSavedMovies();
-  });
+  }, [moviesList]);
 
   return (
     <CookiesProvider>
