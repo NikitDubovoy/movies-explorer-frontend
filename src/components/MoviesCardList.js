@@ -2,9 +2,9 @@ import "../page/index.css";
 import MoviesCard from "./MoviesCard";
 import { useLocation } from "react-router-dom";
 import Preloader from "./Preloader";
+import React from "react";
 function MoviesCardList(props) {
   const isLocationSaved = useLocation().pathname === "/saved-movies";
-
   const message = `${
     isLocationSaved
       ? "Сохраненных фильмов нет"

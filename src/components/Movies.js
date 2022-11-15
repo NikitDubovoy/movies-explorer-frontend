@@ -5,17 +5,21 @@ import Footer from "./Footer";
 import MoviesCardList from "./MoviesCardList";
 
 function Movies(props) {
+  const searchMovies = JSON.parse(localStorage.getItem("newListMovie"));
+
   return (
     <div className="page">
       <Header isLoggedIn={props.isLoggedIn} />
       <main className="movies">
         <SearchForm
-          checked={props.isCheckdox}
-          onValue={props.onValueSearh}
+          checked={props.isCheckbox}
+          valueSearch={props.valueSearch}
+          handleSearchValue={props.handleSearchValue}
           onCheckbox={props.onValueCheckbox}
           onSubmit={props.onSubmitSearch}
           movies={props.moviesList}
           setSearchMovie={props.setNewFilterList}
+          nameLocalList="beatfilmSearchMovies"
         />
         <MoviesCardList
           isPreloader={props.isPreloader}
@@ -26,7 +30,7 @@ function Movies(props) {
           onButton={props.onButtonMore}
           counter={props.counter}
           isContent={props.isContent}
-          movies={props.newFilterList}
+          movies={searchMovies || props.newFilterList}
         />
       </main>
       <Footer />

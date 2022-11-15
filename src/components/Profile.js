@@ -22,17 +22,18 @@ function Profile(props) {
   const [nameTitle, setNameTitle] = React.useState(userName);
 
   const name = useValieInput(
-    userName,
+    userName || "",
     {
-      isMaxLength: 5,
+      isMaxLength: 30,
       isMinLength: 2,
       isValueEquality: userName,
     },
     classNameText
   );
   const email = useValieInput(
-    userEmail,
+    userEmail || "",
     {
+      isValueEquality: userEmail,
       isEmail: false,
     },
     classNameText
@@ -47,21 +48,15 @@ function Profile(props) {
     }
   }, [name.isFocus, name.isValidate, email.isFocus, email.isValidate]);
 
-  function handleNameChange(e) {
-    setUserName(e.target.value);
-  }
-
-  function handleEmailChange(e) {
-    setUserEmail(e.target.value);
-  }
-
   function handleSubmitProfile(e) {
     e.preventDefault();
     props.onUpdateUser({
-      name: userName,
-      email: userEmail,
+      email: email.value,
+      name: name.value,
     });
-    setNameTitle(userName);
+    setUserName(name.value);
+
+    setNameTitle(name.value);
   }
 
   return (

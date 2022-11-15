@@ -12,7 +12,7 @@ class Api {
       return data.json();
     }
 
-    return Promise.reject("Error");
+    return Promise.reject(data);
   }
 
   getUser() {
@@ -39,7 +39,12 @@ class Api {
       },
       body: JSON.stringify(body),
     }).then((res) => {
-      return res.json();
+      if (res.status === 200) {
+        console.log(res.status);
+        return res.json();
+      } else {
+        return this._getResponseData(res.status);
+      }
     });
   }
 
@@ -56,6 +61,8 @@ class Api {
   }
 }
 
-const api = new Api("https://api.movies2.nomoredomains.icu");
+const api = new Api(
+  "http://localhost:3001" /*  "https://api.movies2.nomoredomains.icu" */
+);
 
 export default api;

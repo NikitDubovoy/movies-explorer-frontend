@@ -37,7 +37,7 @@ function Register(props) {
         <form
           className="register__form"
           onSubmit={handleSubmitRegister}
-          novalidate
+          noValidate
         >
           <h2 className="register__form-title">Имя</h2>
           <input

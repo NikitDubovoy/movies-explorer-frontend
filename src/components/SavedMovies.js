@@ -3,6 +3,7 @@ import Header from "./Header";
 import SearchForm from "./SearchForm";
 import Footer from "./Footer";
 import MoviesCardList from "./MoviesCardList";
+import React from "react";
 
 function SavedMovies(props) {
   return (
@@ -11,11 +12,12 @@ function SavedMovies(props) {
       <main className="saved-movies">
         <SearchForm
           checked={props.isCheckdox}
-          onValue={props.onValueSearh}
           onCheckbox={props.onValueCheckbox}
+          handleSearchValue={props.handleSearchValue}
           onSubmit={props.onSubmitSearch}
           movies={props.saveMovies}
           setSearchMovie={props.setSaveSearchMovies}
+          valueSearch={props.valueSearch}
         />
         <MoviesCardList
           onDeletedMovies={props.onDeletedMovie}
@@ -26,11 +28,7 @@ function SavedMovies(props) {
           counter={props.saveMovies.length}
           isContent={props.isContent}
           saveSearchMovies={props.saveSearchMovies}
-          movies={
-            props.saveSearchMovies.length > 0
-              ? props.saveSearchMovies
-              : props.saveMovies
-          }
+          movies={props.saveSearchMovies}
         />
       </main>
       <Footer />

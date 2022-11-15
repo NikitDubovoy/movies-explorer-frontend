@@ -9,26 +9,41 @@ import Movies from "./Movies.js";
 import { UserContext } from "../context/CurrentUserContext";
 import * as Auth from "./Auth.js";
 import "../page/index.css";
-import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import NotFound from "./NotFound.js";
 import api from "../utils/api.js";
 import ProtectedRoute from "./ProtectedRouter.js";
 import movieApi from "../utils/MoviesApi";
 import MainApi from "../utils/MainApi";
-import useValidationServerStatus from "./ValidationServerStatus";
 
 function App() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const checked = () => {
+    if (
+      localStorage.getItem("checked") === null ||
+      localStorage.getItem("checked") === "false"
+    ) {
+      return false;
+    }
+    if (localStorage.getItem("checked") === "true") {
+      return true;
+    }
+  };
   const [currentUser, setCurrentUser] = React.useState({});
   const [name, setName] = React.useState(currentUser.name);
   const [email, setEmail] = React.useState(currentUser.email);
   const [password, setPassword] = React.useState(currentUser.password);
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [moviesList, setMoviesList] = React.useState([]);
-  const [valueSearch, setValueSearch] = React.useState("");
-  const [newFilterList, setNewFilterList] = React.useState([]);
-  const [valueSearchCheckbox, setValueSearchCheckbox] = React.useState(false);
+  const [moviesList, setMoviesList] = React.useState(
+    JSON.parse(localStorage.getItem("newListMovie")) === null
+      ? []
+      : JSON.parse(localStorage.getItem("newListMovie"))
+  );
+  const [valueSearch, setValueSearch] = React.useState(
+    localStorage.getItem("search")
+  );
+  const [newFilterList, setNewFilterList] = React.useState(moviesList);
+  const [valueSearchCheckbox, setValueSearchCheckbox] = React.useState(checked);
   const [isContent, setIsContent] = React.useState(false);
   const [counter, setCounter] = React.useState(null);
   const [addition, setAdition] = React.useState(null);
@@ -39,11 +54,23 @@ function App() {
   const [errStatusProfile, setErrStatusProfile] = React.useState(null);
   const [isPreloader, setPreloader] = React.useState(false);
 
+  function getMovies() {
+    movieApi
+      .getInitialMovies()
+      .then((data) => {
+        setMoviesList(data);
+        setPreloader(true);
+      })
+      .finally(() => setPreloader(false))
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function handleButtonMore(e) {
     e.preventDefault();
     setCounter(counter + addition);
   }
-
   React.useEffect(() => {
     if (window.innerWidth >= 1280) {
       setAdition(3);
@@ -65,19 +92,22 @@ function App() {
     setValueSearchCheckbox(e.target.checked);
   }
 
-  function handleSubmitSerach(moviesList, setNewMovieList) {
+  function handleSubmitSearch(moviesList, setNewMovieList) {
+    getSavedMovies();
     getMovies();
-    const filterSearch = moviesList.filter((movie) => {
+    moviesList = moviesList.filter((movie) => {
       if (!valueSearchCheckbox || movie.duration <= 40)
         return movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase());
     });
-    if (filterSearch.length === 0) {
+    if (moviesList.length === 0) {
       setIsContent(true);
     } else {
       setIsContent(false);
+      setNewMovieList(moviesList);
+      localStorage.setItem("checked", valueSearchCheckbox);
+      localStorage.setItem("search", valueSearch);
+      localStorage.setItem("newListMovie", JSON.stringify(newFilterList));
     }
-    setValueSearch("");
-    setNewMovieList(filterSearch);
   }
 
   React.useEffect(() => {
@@ -158,20 +188,6 @@ function App() {
     });
   }
 
-  function getMovies() {
-    movieApi
-      .getInitialMovies()
-      .then((data) => {
-        setMoviesList(data);
-        getSavedMovies();
-        setPreloader(true);
-      })
-      .finally(() => setPreloader(false))
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   function handleSavedMovies(movie) {
     MainApi.setSavedMovies(movie)
       .then(() => {
@@ -195,15 +211,11 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
+
   React.useEffect(() => {
-    if (
-      location.pathname === "/movies" ||
-      location.pathname === "/saved-movies"
-    ) {
-      getMovies();
-      getSavedMovies();
-    }
-  }, [location]);
+    getMovies();
+    getSavedMovies();
+  });
 
   return (
     <CookiesProvider>
@@ -237,6 +249,7 @@ function App() {
             element={
               <ProtectedRoute isLogged={loggedIn}>
                 <SavedMovies
+                  getSavedMovies={getSavedMovies}
                   onDeletedMovie={handleDeleteMovies}
                   saveMovies={saveMovies}
                   idUser={currentUser._id}
@@ -247,11 +260,12 @@ function App() {
                   isContent={isContent}
                   onValueSearh={handleSearchValue}
                   onValueCheckbox={handleSearchCheckbox}
-                  onSubmitSearch={handleSubmitSerach}
-                  onValueSearch={handleSearchValue}
+                  onSubmitSearch={handleSubmitSearch}
                   isLoggedIn={loggedIn}
                   saveSearchMovies={saveSearchMovies}
                   setSaveSearchMovies={setSaveSearchMovies}
+                  valueSearch={valueSearch}
+                  handleSearchValue={handleSearchValue}
                 />
               </ProtectedRoute>
             }
@@ -261,17 +275,18 @@ function App() {
             element={
               <ProtectedRoute isLogged={loggedIn}>
                 <Movies
+                  valueSearch={valueSearch}
                   onDeletedMovie={handleDeleteMovies}
                   saveMovies={saveMovies}
                   idUser={currentUser._id}
                   onSavedMovies={handleSavedMovies}
                   onButtonMore={handleButtonMore}
                   counter={counter}
-                  isCheckdox={valueSearchCheckbox}
+                  isCheckbox={valueSearchCheckbox}
                   isContent={isContent}
-                  onValueSearh={handleSearchValue}
+                  handleSearchValue={handleSearchValue}
                   onValueCheckbox={handleSearchCheckbox}
-                  onSubmitSearch={handleSubmitSerach}
+                  onSubmitSearch={handleSubmitSearch}
                   getMovies={getMovies}
                   isLoggedIn={loggedIn}
                   moviesList={moviesList}
@@ -290,6 +305,7 @@ function App() {
                   errStatus={errStatusProfile}
                   isLoggedIn={loggedIn}
                   userName={name}
+                  currentUser={currentUser}
                   setCurrentUser={setCurrentUser}
                   userEmail={email}
                   onName={handleNameChange}
