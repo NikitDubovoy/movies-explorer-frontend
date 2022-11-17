@@ -3,9 +3,13 @@ import Header from "./Header";
 import SearchForm from "./SearchForm";
 import Footer from "./Footer";
 import MoviesCardList from "./MoviesCardList";
+import React from "react";
 
 function Movies(props) {
-  const searchMovies = JSON.parse(localStorage.getItem("newListMovie"));
+  React.useState(() => {
+    props.getSaveMovies();
+    props.getMovie();
+  }, [props.getMovie, props.getSaveMovies]);
 
   return (
     <div className="page">
@@ -19,7 +23,6 @@ function Movies(props) {
           onSubmit={props.onSubmitSearch}
           movies={props.moviesList}
           setSearchMovie={props.setNewFilterList}
-          nameLocalList="beatfilmSearchMovies"
         />
         <MoviesCardList
           isPreloader={props.isPreloader}
@@ -30,7 +33,7 @@ function Movies(props) {
           onButton={props.onButtonMore}
           counter={props.counter}
           isContent={props.isContent}
-          movies={searchMovies || props.newFilterList}
+          movies={props.newFilterList}
         />
       </main>
       <Footer />

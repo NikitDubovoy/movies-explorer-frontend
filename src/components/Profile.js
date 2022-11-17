@@ -3,10 +3,16 @@ import "../page/index.css";
 import Header from "./Header";
 import { useValieInput } from "./ValidationForm";
 import useValidationServerStatus from "./ValidationServerStatus";
+import { UserContext } from "../context/CurrentUserContext";
 
 function Profile(props) {
+  const user = React.useContext(UserContext);
+
+  const serverMessage = useValidationServerStatus(props.errStatus);
+  const classNameServerMessage = `${
+    serverMessage === "Успешно" ? "profile__success" : "profile__server-error"
+  }`;
   const classNameText = "profile__error";
-  const errText = useValidationServerStatus(props.errStatus);
   const [buttonClassName, setButtonClassName] = React.useState(
     "profile__button profile__button_active"
   );
@@ -17,29 +23,27 @@ function Profile(props) {
   const [saveButtonClassName, setSaveButtonClassName] = React.useState(
     "profile__button-save"
   );
-  const [userName, setUserName] = React.useState(props.userName);
-  const [userEmail, setUserEmail] = React.useState(props.userEmail);
-  const [nameTitle, setNameTitle] = React.useState(userName);
+  const [nameTitle, setNameTitle] = React.useState(user.name);
 
   const name = useValieInput(
-    userName || "",
+    user.name || "",
     {
       isMaxLength: 30,
       isMinLength: 2,
-      isValueEquality: userName,
+      isValueEquality: user.name,
     },
     classNameText
   );
   const email = useValieInput(
-    userEmail || "",
+    user.email || "",
     {
-      isValueEquality: userEmail,
+      isValueEquality: user.email,
       isEmail: false,
     },
     classNameText
   );
   React.useEffect(() => {
-    if (email.value != userEmail || name.value != userName) {
+    if (email.value != user.email || name.value != user.name) {
       setButtonClassName("profile__button");
       setExitButtonClassName("profile__button");
       setSaveButtonClassName(
@@ -54,8 +58,6 @@ function Profile(props) {
       email: email.value,
       name: name.value,
     });
-    setUserName(name.value);
-
     setNameTitle(name.value);
   }
 
@@ -90,7 +92,7 @@ function Profile(props) {
             ></input>
             <span className={email.errorSpanClassName}>{email.errorText}</span>
           </label>
-          <span className="profile__server-error">{errText}</span>
+          <span className={classNameServerMessage}>{serverMessage}</span>
           <button type="submit" className={buttonClassName}>
             Редактировать
           </button>

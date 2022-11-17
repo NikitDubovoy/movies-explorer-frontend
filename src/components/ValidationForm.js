@@ -113,7 +113,7 @@ const useValidation = (value, validationRules) => {
           break;
         case "isEmail":
           const reg =
-            /^[A-Za-z0-9][A-Za-z0-9.\-_]*[A-Za-z0-9]*@([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9]+)*\.)+[A-Za-z]*$/;
+            /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
           if (!reg.test(String(value).toLowerCase())) {
             setEmail(true);
             addErrorMessage("Введите E-mail адрес.");

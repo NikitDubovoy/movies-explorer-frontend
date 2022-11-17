@@ -9,40 +9,35 @@ import Movies from "./Movies.js";
 import { UserContext } from "../context/CurrentUserContext";
 import * as Auth from "./Auth.js";
 import "../page/index.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import NotFound from "./NotFound.js";
 import api from "../utils/api.js";
 import ProtectedRoute from "./ProtectedRouter.js";
+import ProtectedRouterIsLogged from "./ProtectedRouterIsLogged";
 import movieApi from "../utils/MoviesApi";
 import MainApi from "../utils/MainApi";
 
 function App() {
+  const location = useLocation();
   const navigate = useNavigate();
-  const checked = () => {
-    if (
-      localStorage.getItem("checked") === null ||
-      localStorage.getItem("checked") === "false"
-    ) {
-      return false;
-    }
-    if (localStorage.getItem("checked") === "true") {
-      return true;
-    }
-  };
+  const checked =
+    localStorage.getItem("checked") === null ||
+    localStorage.getItem("checked") === "false"
+      ? false
+      : true;
+  const search = localStorage.getItem("search") || "";
   const [currentUser, setCurrentUser] = React.useState({});
   const [name, setName] = React.useState(currentUser.name);
   const [email, setEmail] = React.useState(currentUser.email);
   const [password, setPassword] = React.useState(currentUser.password);
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [moviesList, setMoviesList] = React.useState(
+  const [moviesList, setMoviesList] = React.useState([]);
+  const [newFilterList, setNewFilterList] = React.useState(
     JSON.parse(localStorage.getItem("newListMovie")) === null
-      ? []
+      ? moviesList
       : JSON.parse(localStorage.getItem("newListMovie"))
   );
-  const [valueSearch, setValueSearch] = React.useState(
-    localStorage.getItem("search")
-  );
-  const [newFilterList, setNewFilterList] = React.useState(moviesList);
+  const [valueSearch, setValueSearch] = React.useState(search);
   const [valueSearchCheckbox, setValueSearchCheckbox] = React.useState(checked);
   const [isContent, setIsContent] = React.useState(false);
   const [counter, setCounter] = React.useState(null);
@@ -52,20 +47,7 @@ function App() {
   const [errStatusReg, setErrStatusReg] = React.useState(null);
   const [errStatusLogin, setErrStatusLogin] = React.useState(null);
   const [errStatusProfile, setErrStatusProfile] = React.useState(null);
-  const [isPreloader, setPreloader] = React.useState(false);
-
-  function getMovies() {
-    movieApi
-      .getInitialMovies()
-      .then((data) => {
-        setMoviesList(data);
-        setPreloader(true);
-      })
-      .finally(() => setPreloader(false))
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  const [isPreloader, setPreloader] = React.useState(true);
 
   function handleButtonMore(e) {
     e.preventDefault();
@@ -90,23 +72,25 @@ function App() {
 
   function handleSearchCheckbox(e) {
     setValueSearchCheckbox(e.target.checked);
+    localStorage.setItem("checked", !e.target.checked);
   }
 
-  function handleSubmitSearch(moviesList, setNewMovieList) {
-    getSavedMovies();
-    getMovies();
-    moviesList = moviesList.filter((movie) => {
-      if (!valueSearchCheckbox || movie.duration <= 40)
+  function handleSubmitSearch(moviesList, setNewMovieList, checked) {
+    getMovie();
+    getSaveMovies();
+    const newListMovie = moviesList.filter((movie) => {
+      if (checked || movie.duration <= 40)
         return movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase());
     });
+    if (location.pathname === "/movies") {
+      localStorage.setItem("search", valueSearch);
+      localStorage.setItem("newListMovie", JSON.stringify(newListMovie));
+    }
+    setNewMovieList(newListMovie);
     if (moviesList.length === 0) {
       setIsContent(true);
     } else {
       setIsContent(false);
-      setNewMovieList(moviesList);
-      localStorage.setItem("checked", valueSearchCheckbox);
-      localStorage.setItem("search", valueSearch);
-      localStorage.setItem("newListMovie", JSON.stringify(newFilterList));
     }
   }
 
@@ -117,10 +101,6 @@ function App() {
       setEmail(currentUser.email);
     }
   }, [currentUser]);
-
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -134,8 +114,29 @@ function App() {
     setLoggedIn(!loggedIn);
   }
 
+  function getSaveMovies() {
+    MainApi.getSavedMovies()
+      .then((res) => {
+        setSaveMovies(res.filter((movie) => movie.owner === currentUser._id));
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function getMovie() {
+    movieApi
+      .getInitialMovies()
+      .then((data) => {
+        setMoviesList(data);
+        setPreloader(true);
+      })
+      .finally(() => setPreloader(false))
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   React.useEffect(() => {
-    if (localStorage.loggedIn) {
+    if (localStorage.loggedIn === "true") {
       api
         .getUser()
         .then((user) => {
@@ -144,13 +145,14 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
-  }, [localStorage]);
+  }, [moviesList.length != 0]);
 
   function handleSubmitRegister(name, email, password) {
     Auth.register(name, email, password)
       .then((res) => {
         if (res) {
           navigate("/signin");
+          handleSubmitSignIn(email, password);
         }
       })
       .catch((err) => setErrStatusReg(err));
@@ -161,7 +163,7 @@ function App() {
       .then((data) => {
         if (data) {
           handleLoggedIn();
-          navigate("/");
+          navigate("/movies");
           setCurrentUser(data);
         }
       })
@@ -173,6 +175,7 @@ function App() {
       .setUser(user)
       .then((res) => {
         setCurrentUser(res);
+        setErrStatusProfile("");
       })
       .catch((err) => {
         setErrStatusProfile(err);
@@ -191,7 +194,7 @@ function App() {
   function handleSavedMovies(movie) {
     MainApi.setSavedMovies(movie)
       .then(() => {
-        getSavedMovies();
+        getSaveMovies();
       })
       .catch((err) => console.log(err));
   }
@@ -199,23 +202,10 @@ function App() {
   function handleDeleteMovies(idMovie) {
     MainApi.deletedMovies(idMovie)
       .then(() => {
-        getSavedMovies();
+        getSaveMovies();
       })
       .catch((err) => console.log(err));
   }
-
-  function getSavedMovies() {
-    MainApi.getSavedMovies()
-      .then((res) => {
-        setSaveMovies(res.filter((movie) => movie.owner === currentUser._id));
-      })
-      .catch((err) => console.log(err));
-  }
-
-  React.useEffect(() => {
-    getMovies();
-    getSavedMovies();
-  }, [moviesList]);
 
   return (
     <CookiesProvider>
@@ -225,23 +215,27 @@ function App() {
           <Route
             path="/signup"
             element={
-              <Register
-                onSubmit={handleSubmitRegister}
-                onEmail={handleEmailChange}
-                onPassword={handlePasswordChange}
-                errStatus={errStatusReg}
-              />
+              <ProtectedRouterIsLogged>
+                <Register
+                  onSubmit={handleSubmitRegister}
+                  onEmail={handleEmailChange}
+                  onPassword={handlePasswordChange}
+                  errStatus={errStatusReg}
+                />
+              </ProtectedRouterIsLogged>
             }
           />
           <Route
             path="/signin"
             element={
-              <Login
-                onSubmit={handleSubmitSignIn}
-                onEmail={handleEmailChange}
-                onPassword={handlePasswordChange}
-                errStatus={errStatusLogin}
-              />
+              <ProtectedRouterIsLogged>
+                <Login
+                  onSubmit={handleSubmitSignIn}
+                  onEmail={handleEmailChange}
+                  onPassword={handlePasswordChange}
+                  errStatus={errStatusLogin}
+                />
+              </ProtectedRouterIsLogged>
             }
           />
           <Route
@@ -249,7 +243,6 @@ function App() {
             element={
               <ProtectedRoute isLogged={loggedIn}>
                 <SavedMovies
-                  getSavedMovies={getSavedMovies}
                   onDeletedMovie={handleDeleteMovies}
                   saveMovies={saveMovies}
                   idUser={currentUser._id}
@@ -266,6 +259,7 @@ function App() {
                   setSaveSearchMovies={setSaveSearchMovies}
                   valueSearch={valueSearch}
                   handleSearchValue={handleSearchValue}
+                  getSaveMovies={getSaveMovies}
                 />
               </ProtectedRoute>
             }
@@ -287,12 +281,13 @@ function App() {
                   handleSearchValue={handleSearchValue}
                   onValueCheckbox={handleSearchCheckbox}
                   onSubmitSearch={handleSubmitSearch}
-                  getMovies={getMovies}
                   isLoggedIn={loggedIn}
                   moviesList={moviesList}
                   newFilterList={newFilterList}
                   setNewFilterList={setNewFilterList}
                   isPreloader={isPreloader}
+                  getMovie={getMovie}
+                  getSaveMovies={getSaveMovies}
                 />
               </ProtectedRoute>
             }
@@ -304,12 +299,6 @@ function App() {
                 <Profile
                   errStatus={errStatusProfile}
                   isLoggedIn={loggedIn}
-                  userName={name}
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  userEmail={email}
-                  onName={handleNameChange}
-                  onEmail={handleEmailChange}
                   onUpdateUser={handleUpdateUser}
                   onLogout={handleLogout}
                 />

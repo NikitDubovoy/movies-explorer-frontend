@@ -1,6 +1,9 @@
 import "../page/index.css";
+import React from "react";
+import { UserContext } from "../context/CurrentUserContext";
 
 function MoviesCard(props) {
+  const user = React.useContext(UserContext);
   const location = props.isLocationSaved;
   const apiUrl = `https://api.nomoreparties.co`;
   const image = `${
@@ -18,11 +21,11 @@ function MoviesCard(props) {
   const duration = transformDuration(props.movie.duration);
 
   const isLiked = props.saveMovies.some(
-    (i) => i.movieId === props.movie.id && i.owner === props.idUser
+    (i) => i.movieId === props.movie.id && i.owner === user._id
   );
 
   const movieSaved = props.saveMovies.find(
-    (i) => i.movieId === movieId && i.owner === props.idUser
+    (i) => i.movieId === movieId && i.owner === user._id
   );
   function handleSavedButton(e) {
     e.preventDefault();
@@ -34,7 +37,7 @@ function MoviesCard(props) {
       description: props.movie.description,
       image: image,
       trailerLink: props.movie.trailerLink,
-      owner: props.idUser,
+      owner: user._id,
       thumbnail: `${apiUrl}${props.movie.image.formats.thumbnail.url}`,
       movieId: props.movie.id,
       nameRU: props.movie.nameRU,

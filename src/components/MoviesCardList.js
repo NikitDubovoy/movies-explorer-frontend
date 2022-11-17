@@ -9,7 +9,7 @@ function MoviesCardList(props) {
     isLocationSaved
       ? "Сохраненных фильмов нет"
       : props.isContent
-      ? "Ничего подходящего не найдено"
+      ? "Ничего не найдено"
       : "Начните искать фильм"
   }`;
 
@@ -30,6 +30,7 @@ function MoviesCardList(props) {
   return (
     <div className="movies-card-list">
       <h2 className={messageClassName}>{message}</h2>
+
       <Preloader isPreloader={props.isPreloader}></Preloader>
       {movies.map((movie) => (
         <MoviesCard

@@ -1,4 +1,6 @@
-const BASE_URL = "https://api.movies2.nomoredomains.icu";
+/* const BASE_URL = "https://api.movies2.nomoredomains.icu"; */
+
+const BASE_URL = "http://localhost:3001";
 
 function getResponseData(data) {
   if (data.ok) {

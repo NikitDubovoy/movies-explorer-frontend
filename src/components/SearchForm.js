@@ -1,11 +1,14 @@
+import React from "react";
 import "../page/index.css";
 
 function SearchForm(props) {
   function handleSubmitSearch(e) {
     e.preventDefault();
-    props.onSubmit(props.movies, props.setSearchMovie);
+    props.onSubmit(props.movies, props.setSearchMovie, !props.checked);
   }
-
+  function handleSearchCheckbox() {
+    props.onSubmit(props.movies, props.setSearchMovie, props.checked);
+  }
   return (
     <form className="search-form" onSubmit={(e) => handleSubmitSearch(e)}>
       <input
@@ -22,10 +25,10 @@ function SearchForm(props) {
       <label className="search-form__label-text">
         <input
           type="checkbox"
-          onClick={(e) => handleSubmitSearch(e)}
-          className="search-form__checkbox"
-          onChange={props.onCheckbox}
+          onClick={handleSearchCheckbox}
           checked={props.checked}
+          onChange={props.onCheckbox}
+          className="search-form__checkbox"
         />
         <div className="search-form__checkbox-checkmark"></div>
         Короткометражки
