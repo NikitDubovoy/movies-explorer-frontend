@@ -8,7 +8,7 @@ import React from "react";
 function SavedMovies(props) {
   React.useState(() => {
     props.getSaveMovies();
-    props.setSaveSearchMovies(props.saveMovies);
+    console.log(props.saveSearchMovies);
   });
 
   return (
@@ -23,6 +23,7 @@ function SavedMovies(props) {
           movies={props.saveMovies}
           setSearchMovie={props.setSaveSearchMovies}
           valueSearch={props.valueSearch}
+          getSaveMovies={props.getSaveMovies}
         />
         <MoviesCardList
           onDeletedMovies={props.onDeletedMovie}

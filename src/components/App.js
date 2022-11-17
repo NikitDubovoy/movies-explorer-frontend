@@ -117,7 +117,7 @@ function App() {
   function getSaveMovies() {
     MainApi.getSavedMovies()
       .then((res) => {
-        setSaveMovies(res.filter((movie) => movie.owner === currentUser._id));
+        setSaveMovies(res);
       })
       .catch((err) => console.log(err));
   }
@@ -144,8 +144,14 @@ function App() {
           setCurrentUser(user);
         })
         .catch((err) => console.log(err));
+      MainApi.getSavedMovies()
+        .then((res) => {
+          setSaveMovies(res);
+        })
+        .catch((err) => console.log(err));
+      setSaveSearchMovies(saveMovies);
     }
-  }, [moviesList.length != 0]);
+  }, [moviesList.length != 0, saveMovies]);
 
   function handleSubmitRegister(name, email, password) {
     Auth.register(name, email, password)

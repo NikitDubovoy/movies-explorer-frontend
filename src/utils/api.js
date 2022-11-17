@@ -60,5 +60,6 @@ class Api {
 }
 
 const api = new Api("https://api.movies2.nomoredomains.icu");
+/* const api = new Api("http://localhost:3001"); */
 
 export default api;

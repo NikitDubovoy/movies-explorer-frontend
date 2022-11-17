@@ -9,6 +9,7 @@ function SearchForm(props) {
   function handleSearchCheckbox() {
     props.onSubmit(props.movies, props.setSearchMovie, props.checked);
   }
+
   return (
     <form className="search-form" onSubmit={(e) => handleSubmitSearch(e)}>
       <input
