@@ -44,10 +44,26 @@ function App() {
   const [addition, setAdition] = React.useState(null);
   const [saveMovies, setSaveMovies] = React.useState([]);
   const [saveSearchMovies, setSaveSearchMovies] = React.useState([]);
+  const [saveSearchChecked, setSaveSearchChecked] = React.useState(false);
+  const [saveSearchValue, setSaveSearchValue] = React.useState("");
   const [errStatusReg, setErrStatusReg] = React.useState(null);
   const [errStatusLogin, setErrStatusLogin] = React.useState(null);
   const [errStatusProfile, setErrStatusProfile] = React.useState(null);
   const [isPreloader, setPreloader] = React.useState(true);
+
+  function getSaveMovies() {
+    MainApi.getSavedMovies()
+      .then((res) => {
+        setSaveMovies(res);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  React.useEffect(() => {
+    if (saveSearchMovies.length === 0) {
+      setSaveSearchMovies(saveMovies);
+    }
+  });
 
   function handleButtonMore(e) {
     e.preventDefault();
@@ -70,12 +86,21 @@ function App() {
     setValueSearch(e.target.value);
   }
 
-  function handleSearchCheckbox(e) {
-    setValueSearchCheckbox(e.target.checked);
-    localStorage.setItem("checked", !e.target.checked);
+  function handleSaveSearchValue(e) {
+    setSaveSearchValue(e.target.value);
   }
 
-  function handleSubmitSearch(moviesList, setNewMovieList, checked) {
+  function handleSearchCheckbox(e) {
+    setValueSearchCheckbox(e.target.checked);
+    localStorage.setItem("checked", e.target.checked);
+  }
+
+  function handleSubmitSearch(
+    moviesList,
+    setNewMovieList,
+    checked,
+    valueSearch
+  ) {
     getMovie();
     getSaveMovies();
     const newListMovie = moviesList.filter((movie) => {
@@ -106,20 +131,16 @@ function App() {
     setEmail(e.target.value);
   }
 
+  function handleSaveSearchChecked(e) {
+    setSaveSearchChecked(e.target.checked);
+  }
+
   function handlePasswordChange(e) {
     setPassword(e.target.value);
   }
 
   function handleLoggedIn() {
     setLoggedIn(!loggedIn);
-  }
-
-  function getSaveMovies() {
-    MainApi.getSavedMovies()
-      .then((res) => {
-        setSaveMovies(res);
-      })
-      .catch((err) => console.log(err));
   }
 
   function getMovie() {
@@ -144,14 +165,12 @@ function App() {
           setCurrentUser(user);
         })
         .catch((err) => console.log(err));
-      MainApi.getSavedMovies()
-        .then((res) => {
-          setSaveMovies(res);
-        })
-        .catch((err) => console.log(err));
-      setSaveSearchMovies(saveMovies);
     }
-  }, [moviesList.length != 0, saveMovies]);
+  }, [moviesList, saveMovies]);
+
+  React.useState(() => {
+    setSaveSearchMovies(saveMovies);
+  }, [saveMovies]);
 
   function handleSubmitRegister(name, email, password) {
     Auth.register(name, email, password)
@@ -257,15 +276,20 @@ function App() {
                   counter={counter}
                   isCheckdox={valueSearchCheckbox}
                   isContent={isContent}
-                  onValueSearh={handleSearchValue}
                   onValueCheckbox={handleSearchCheckbox}
                   onSubmitSearch={handleSubmitSearch}
                   isLoggedIn={loggedIn}
                   saveSearchMovies={saveSearchMovies}
                   setSaveSearchMovies={setSaveSearchMovies}
+                  handleSaveSearchChecked={handleSaveSearchChecked}
                   valueSearch={valueSearch}
-                  handleSearchValue={handleSearchValue}
                   getSaveMovies={getSaveMovies}
+                  saveSearchChecked={saveSearchChecked}
+                  setSaveSearchChecked={setSaveSearchChecked}
+                  saveSearchValue={saveSearchValue}
+                  setSaveSearchValue={setSaveSearchValue}
+                  handleSaveSearchValue={handleSaveSearchValue}
+                  getMovie={getMovie}
                 />
               </ProtectedRoute>
             }

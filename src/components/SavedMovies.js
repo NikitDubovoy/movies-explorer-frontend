@@ -7,8 +7,9 @@ import React from "react";
 
 function SavedMovies(props) {
   React.useState(() => {
-    props.getSaveMovies();
-    console.log(props.saveSearchMovies);
+    if (props.saveMovies.length === 0) {
+      props.getSaveMovies();
+    }
   });
 
   return (
@@ -16,13 +17,13 @@ function SavedMovies(props) {
       <Header isLoggedIn={props.isLoggedIn} />
       <main className="saved-movies">
         <SearchForm
-          checked={props.isCheckdox}
-          onCheckbox={props.onValueCheckbox}
-          handleSearchValue={props.handleSearchValue}
+          checked={props.saveSearchChecked}
+          onCheckbox={props.handleSaveSearchChecked}
+          handleSearchValue={props.handleSaveSearchValue}
           onSubmit={props.onSubmitSearch}
           movies={props.saveMovies}
           setSearchMovie={props.setSaveSearchMovies}
-          valueSearch={props.valueSearch}
+          valueSearch={props.saveSearchValue}
           getSaveMovies={props.getSaveMovies}
         />
         <MoviesCardList

@@ -4,10 +4,21 @@ import "../page/index.css";
 function SearchForm(props) {
   function handleSubmitSearch(e) {
     e.preventDefault();
-    props.onSubmit(props.movies, props.setSearchMovie, !props.checked);
+    props.onSubmit(
+      props.movies,
+      props.setSearchMovie,
+      props.checked,
+      props.valueSearch
+    );
   }
+
   function handleSearchCheckbox() {
-    props.onSubmit(props.movies, props.setSearchMovie, props.checked);
+    props.onSubmit(
+      props.movies,
+      props.setSearchMovie,
+      props.checked,
+      props.valueSearch
+    );
   }
 
   return (
