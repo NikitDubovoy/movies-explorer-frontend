@@ -16,7 +16,7 @@ function SearchForm(props) {
     props.onSubmit(
       props.movies,
       props.setSearchMovie,
-      props.checked,
+      !props.checked,
       props.valueSearch
     );
   }

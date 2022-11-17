@@ -60,10 +60,8 @@ function App() {
   }
 
   React.useEffect(() => {
-    if (saveSearchMovies.length === 0) {
-      setSaveSearchMovies(saveMovies);
-    }
-  });
+    setSaveSearchMovies(saveMovies);
+  }, []);
 
   function handleButtonMore(e) {
     e.preventDefault();
@@ -104,7 +102,7 @@ function App() {
     getMovie();
     getSaveMovies();
     const newListMovie = moviesList.filter((movie) => {
-      if (checked || movie.duration <= 40)
+      if (!checked || movie.duration <= 40)
         return movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase());
     });
     if (location.pathname === "/movies") {
@@ -212,7 +210,7 @@ function App() {
     api.logout().then(() => {
       setLoggedIn(false);
       navigate("/");
-      localStorage.loggedIn = "";
+      localStorage.clear();
     });
   }
 

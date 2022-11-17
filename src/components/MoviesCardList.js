@@ -22,11 +22,11 @@ function MoviesCardList(props) {
   }`;
 
   const buttonClassName = `${
-    props.counter >= props.movies.length
+    props.counter >= props.movies.length || isLocationSaved
       ? "movies-card-list__button-more"
       : "movies-card-list__button-more movies-card-list__button-more_active"
   }`;
-
+  console.log(movies);
   return (
     <div className="movies-card-list">
       <h2 className={messageClassName}>{message}</h2>
@@ -40,7 +40,7 @@ function MoviesCardList(props) {
           onDeletedMovies={props.onDeletedMovies}
           movie={movie}
           onSavedMovies={props.onSavedMovies}
-          key={isLocationSaved ? movie.movieId : movie.id}
+          key={isLocationSaved ? movie._id : movie.id}
         />
       ))}
       <button

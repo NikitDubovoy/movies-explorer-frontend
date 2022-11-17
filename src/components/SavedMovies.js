@@ -7,9 +7,7 @@ import React from "react";
 
 function SavedMovies(props) {
   React.useState(() => {
-    if (props.saveMovies.length === 0) {
-      props.getSaveMovies();
-    }
+    props.getSaveMovies();
   });
 
   return (
@@ -34,8 +32,11 @@ function SavedMovies(props) {
           onButton={props.onButtonMore}
           counter={props.saveMovies.length}
           isContent={props.isContent}
-          saveSearchMovies={props.saveSearchMovies}
-          movies={props.saveSearchMovies}
+          movies={
+            props.saveSearchMovies.length != 0
+              ? props.saveSearchMovies
+              : props.saveMovies
+          }
         />
       </main>
       <Footer />

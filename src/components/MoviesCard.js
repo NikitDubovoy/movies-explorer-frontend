@@ -66,10 +66,10 @@ function MoviesCard(props) {
         type="button"
         onClick={
           location
-            ? handleDeletedButton
+            ? (e) => handleDeletedButton(e)
             : isLiked
-            ? handleDeletedButton
-            : handleSavedButton
+            ? (e) => handleDeletedButton(e)
+            : (e) => handleSavedButton(e)
         }
         className={classButton}
       ></button>
