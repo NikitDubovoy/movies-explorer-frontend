@@ -6,8 +6,11 @@ import useValidationServerStatus from "./ValidationServerStatus";
 import { UserContext } from "../context/CurrentUserContext";
 
 function Profile(props) {
-  const user = React.useContext(UserContext);
-
+  const currentUser = React.useContext(UserContext);
+  const [userName, setUserName] = React.useState(currentUser.name);
+  const [userEmail, setUserEmail] = React.useState(currentUser.email);
+  const [readOnlyName, setReadOnlyName] = React.useState(false);
+  const [readOnlyEmail, setReadOnlyEmail] = React.useState(false);
   const serverMessage = useValidationServerStatus(props.errStatus);
   const classNameServerMessage = `${
     serverMessage === "Успешно" ? "profile__success" : "profile__server-error"
@@ -23,27 +26,35 @@ function Profile(props) {
   const [saveButtonClassName, setSaveButtonClassName] = React.useState(
     "profile__button-save"
   );
-  const [nameTitle, setNameTitle] = React.useState(user.name);
 
   const name = useValieInput(
-    user.name || "",
+    userName || "",
     {
       isMaxLength: 30,
       isMinLength: 2,
-      isValueEquality: user.name,
+      isValueEquality: userName,
     },
     classNameText
   );
   const email = useValieInput(
-    user.email || "",
+    userEmail || "",
     {
-      isValueEquality: user.email,
+      isValueEquality: userEmail,
       isEmail: false,
     },
     classNameText
   );
   React.useEffect(() => {
-    if (email.value != user.email || name.value != user.name) {
+    if (userName !== name.value) {
+      setReadOnlyEmail(true);
+    }
+    if (userEmail !== email.value) {
+      setReadOnlyName(true);
+    }
+  }, [name.value, email.value]);
+
+  React.useEffect(() => {
+    if (email.value != userEmail || name.value != userName) {
       setButtonClassName("profile__button");
       setExitButtonClassName("profile__button");
       setSaveButtonClassName(
@@ -58,15 +69,22 @@ function Profile(props) {
       email: email.value,
       name: name.value,
     });
-    setNameTitle(name.value);
   }
+
+  React.useEffect(() => {
+    if (Object.keys(currentUser).length) {
+      setUserEmail(currentUser.email);
+      setUserName(currentUser.name);
+    }
+    console.log(currentUser);
+  }, [currentUser]);
 
   return (
     <div className="page">
       <main className="profile">
         <Header isLoggedIn={props.isLoggedIn} />
         <form className="profile__form" onSubmit={handleSubmitProfile}>
-          <h2 className="profile__title">Привет, {nameTitle}!</h2>
+          <h2 className="profile__title">Привет, {userName}!</h2>
           <label className="profile__label">
             <span className="profile__label-text">Имя</span>
             <input
@@ -76,10 +94,12 @@ function Profile(props) {
               type="text"
               name="nameUser"
               onFocus={() => name.onFocus()}
+              readOnly={readOnlyName}
             ></input>
-            <span className={name.errorSpanClassName}>{name.errorText}</span>
+            <span className={name.errorSpanClassName}>
+              {!readOnlyName ? name.errorText : ""}
+            </span>
           </label>
-
           <label className="profile__label">
             <span className="profile__label-text">E-mail</span>
             <input
@@ -89,17 +109,19 @@ function Profile(props) {
               type="e-mail"
               name="emailUser"
               onFocus={() => email.onFocus()}
+              readOnly={readOnlyEmail}
             ></input>
-            <span className={email.errorSpanClassName}>{email.errorText}</span>
+            <span className={email.errorSpanClassName}>
+              {!readOnlyEmail ? email.errorText : ""}
+            </span>
           </label>
           <span className={classNameServerMessage}>{serverMessage}</span>
           <button type="submit" className={buttonClassName}>
             Редактировать
           </button>
-
           <button
             type="submit"
-            disabled={name.isValidate || email.isValidate}
+            disabled={name.isValidate && email.isValidate}
             className={saveButtonClassName}
           >
             Сохранить

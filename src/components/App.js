@@ -26,7 +26,7 @@ function App() {
       ? false
       : true;
   const search = localStorage.getItem("search") || "";
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState(UserContext);
   const [name, setName] = React.useState(currentUser.name);
   const [email, setEmail] = React.useState(currentUser.email);
   const [password, setPassword] = React.useState(currentUser.password);
@@ -99,8 +99,6 @@ function App() {
     checked,
     valueSearch
   ) {
-    getMovie();
-    getSaveMovies();
     const newListMovie = moviesList.filter((movie) => {
       if (!checked || movie.duration <= 40)
         return movie.nameRU.toLowerCase().includes(valueSearch.toLowerCase());
@@ -110,7 +108,7 @@ function App() {
       localStorage.setItem("newListMovie", JSON.stringify(newListMovie));
     }
     setNewMovieList(newListMovie);
-    if (moviesList.length === 0) {
+    if (newListMovie.length === 0) {
       setIsContent(true);
     } else {
       setIsContent(false);
@@ -162,9 +160,25 @@ function App() {
           setLoggedIn(true);
           setCurrentUser(user);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          logout();
+          console.log(err);
+        });
     }
   }, [moviesList, saveMovies]);
+
+  function getUser() {
+    api
+      .getUser()
+      .then((user) => {
+        setLoggedIn(true);
+        setCurrentUser(user);
+      })
+      .catch((err) => {
+        logout();
+        console.log(err);
+      });
+  }
 
   React.useState(() => {
     setSaveSearchMovies(saveMovies);
@@ -197,8 +211,9 @@ function App() {
     api
       .setUser(user)
       .then((res) => {
+        getUser();
         setCurrentUser(res);
-        setErrStatusProfile("");
+        setErrStatusProfile(200);
       })
       .catch((err) => {
         setErrStatusProfile(err);
@@ -207,6 +222,10 @@ function App() {
 
   function handleLogout(e) {
     e.preventDefault();
+    logout();
+  }
+
+  function logout() {
     api.logout().then(() => {
       setLoggedIn(false);
       navigate("/");
@@ -216,18 +235,27 @@ function App() {
 
   function handleSavedMovies(movie) {
     MainApi.setSavedMovies(movie)
-      .then(() => {
+      .then((res) => {
         getSaveMovies();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err) {
+          logout();
+          console.log(err);
+        }
+      });
   }
 
   function handleDeleteMovies(idMovie) {
     MainApi.deletedMovies(idMovie)
-      .then(() => {
+      .then((res) => {
         getSaveMovies();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err) {
+          logout();
+        }
+      });
   }
 
   return (

@@ -17,13 +17,11 @@ export const register = (name, email, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, email, password }),
-  }).then((response) => {
-    if (response.status === 200) {
-      localStorage.setItem("user", response);
-    } else {
-      return getResponseData(response.status);
+  }).then((res) => {
+    if (res.status === 200) {
+      return res.json();
     }
-    return getResponseData(response);
+    return this._getResponseData(res.status);
   });
 };
 

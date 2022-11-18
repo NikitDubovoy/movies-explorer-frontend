@@ -26,7 +26,7 @@ function MoviesCardList(props) {
       ? "movies-card-list__button-more"
       : "movies-card-list__button-more movies-card-list__button-more_active"
   }`;
-  console.log(movies);
+
   return (
     <div className="movies-card-list">
       <h2 className={messageClassName}>{message}</h2>

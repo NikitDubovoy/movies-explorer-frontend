@@ -21,7 +21,10 @@ class Api {
         "Content-Type": "application/json",
       },
     }).then((res) => {
-      return this._getResponseData(res);
+      if (res.status === 200) {
+        return res.json();
+      }
+      return this._getResponseData(res.status);
     });
   }
   deletedMovies(idMovies) {
@@ -32,7 +35,10 @@ class Api {
         "Content-Type": "application/json",
       },
     }).then((res) => {
-      return this._getResponseData(res);
+      if (res.status === 200) {
+        return res.json();
+      }
+      return this._getResponseData(res.status);
     });
   }
 
@@ -58,7 +64,10 @@ class Api {
       },
       body: JSON.stringify(body),
     }).then((res) => {
-      return res.json();
+      if (res.status === 200) {
+        return res.json();
+      }
+      return this._getResponseData(res.status);
     });
   }
 }
