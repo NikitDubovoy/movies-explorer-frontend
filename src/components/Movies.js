@@ -6,11 +6,6 @@ import MoviesCardList from "./MoviesCardList";
 import React from "react";
 
 function Movies(props) {
-  React.useState(() => {
-    props.getSaveMovies();
-    props.getMovie();
-  }, [props.getMovie, props.getSaveMovies]);
-
   return (
     <div className="page">
       <Header isLoggedIn={props.isLoggedIn} />

@@ -49,7 +49,7 @@ function App() {
   const [errStatusReg, setErrStatusReg] = React.useState(null);
   const [errStatusLogin, setErrStatusLogin] = React.useState(null);
   const [errStatusProfile, setErrStatusProfile] = React.useState(null);
-  const [isPreloader, setPreloader] = React.useState(true);
+  const [isPreloader, setPreloader] = React.useState(false);
 
   function getSaveMovies() {
     MainApi.getSavedMovies()
@@ -60,6 +60,8 @@ function App() {
   }
 
   React.useEffect(() => {
+    getMovie();
+    getSaveMovies();
     setSaveSearchMovies(saveMovies);
   }, []);
 
@@ -140,30 +142,29 @@ function App() {
   }
 
   function getMovie() {
-    movieApi
-      .getInitialMovies()
-      .then((data) => {
-        setMoviesList(data);
-        setPreloader(true);
-      })
-      .finally(() => setPreloader(false))
-      .catch((err) => {
-        console.log(err);
-      });
+    if (
+      !JSON.parse(localStorage.getItem("newListMovie")) ||
+      JSON.parse(localStorage.getItem("newListMovie")).length === 0
+    ) {
+      movieApi
+        .getInitialMovies()
+        .then((data) => {
+          setMoviesList(data);
+          setPreloader(true);
+        })
+        .finally(() => setPreloader(false))
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setPreloader(false);
+      return JSON.parse(localStorage.getItem("newListMovie"));
+    }
   }
 
   React.useEffect(() => {
     if (localStorage.loggedIn === "true") {
-      api
-        .getUser()
-        .then((user) => {
-          setLoggedIn(true);
-          setCurrentUser(user);
-        })
-        .catch((err) => {
-          logout();
-          console.log(err);
-        });
+      getUser();
     }
   }, [moviesList, saveMovies]);
 
@@ -232,11 +233,12 @@ function App() {
       localStorage.clear();
     });
   }
-
+  console.log(saveMovies);
   function handleSavedMovies(movie) {
     MainApi.setSavedMovies(movie)
       .then((res) => {
-        getSaveMovies();
+        const NewList = [...saveMovies, res];
+        setSaveMovies(NewList);
       })
       .catch((err) => {
         if (err) {
@@ -249,11 +251,12 @@ function App() {
   function handleDeleteMovies(idMovie) {
     MainApi.deletedMovies(idMovie)
       .then((res) => {
-        getSaveMovies();
+        setSaveMovies(saveMovies.filter((movie) => movie._id !== res._id));
       })
       .catch((err) => {
         if (err) {
           logout();
+          console.log(err);
         }
       });
   }
