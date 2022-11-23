@@ -53,7 +53,7 @@ function App() {
   const [errStatusReg, setErrStatusReg] = React.useState(null);
   const [errStatusLogin, setErrStatusLogin] = React.useState(null);
   const [errStatusProfile, setErrStatusProfile] = React.useState(null);
-  const [isPreloader, setPreloader] = React.useState(false);
+  const [isPreloader, setPreloader] = React.useState(true);
 
   function getSaveMovies() {
     MainApi.getSavedMovies()
@@ -68,11 +68,15 @@ function App() {
       movieApi
         .getInitialMovies()
         .then((data) => {
-          setMoviesList(data);
           setPreloader(true);
+          setMoviesList(data);
           localStorage.setItem("beatFilm", JSON.stringify(data));
+          console.log(isPreloader);
         })
-        .finally(() => setPreloader(false))
+        .finally(() => {
+          setPreloader(false);
+          console.log(isPreloader);
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -81,7 +85,7 @@ function App() {
 
   React.useEffect(() => {
     if (localStorage.loggedIn === "true") {
-      getMovie(JSON.parse(localStorage.getItem("beatFilm")));
+      getMovie();
       getSaveMovies();
       setSaveSearchMovies(saveMovies);
     }

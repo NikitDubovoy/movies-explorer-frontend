@@ -29,9 +29,12 @@ function MoviesCardList(props) {
 
   return (
     <div className="movies-card-list">
-      <h2 className={messageClassName}>{message}</h2>
+      {props.isPreloader ? (
+        <Preloader isPreloader={props.isPreloader}></Preloader>
+      ) : (
+        <h2 className={messageClassName}>{message}</h2>
+      )}
 
-      <Preloader isPreloader={props.isPreloader}></Preloader>
       {movies.map((movie) => (
         <MoviesCard
           isLocationSaved={isLocationSaved}
