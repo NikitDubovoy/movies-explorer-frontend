@@ -71,11 +71,9 @@ function App() {
           setPreloader(true);
           setMoviesList(data);
           localStorage.setItem("beatFilm", JSON.stringify(data));
-          console.log(isPreloader);
         })
         .finally(() => {
           setPreloader(false);
-          console.log(isPreloader);
         })
         .catch((err) => {
           console.log(err);
