@@ -9,7 +9,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
   const inputClassName = valid.inputClassName;
   const [isFocus, setFocus] = React.useState(false);
   const [errorSpanClassName, setErrorSpanClassName] = React.useState("");
-  console.log(errorText);
+
   React.useEffect(() => {
     if (errorMessages.length != 0) {
       const message = errorMessages[0];
@@ -17,7 +17,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
     } else {
       setErrorText("");
     }
-  }, [value, errorMessages.length]);
+  }, [value, errorMessages]);
 
   React.useEffect(() => {
     if (!isFocus) {
