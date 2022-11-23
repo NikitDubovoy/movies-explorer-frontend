@@ -25,7 +25,7 @@ class Api {
       if (res.status === 200) {
         return res.json();
       }
-      return this._getResponseData(res.status);
+      return this._getResponseData(res);
     });
   }
 
@@ -45,7 +45,7 @@ class Api {
       if (res.status === 200) {
         return res.json();
       }
-      return this._getResponseData(res.status);
+      return this._getResponseData(res);
     });
   }
 
@@ -60,12 +60,12 @@ class Api {
       if (res.status === 200) {
         return res.json();
       }
-      return this._getResponseData(res.status);
+      return this._getResponseData(res);
     });
   }
 }
 
-const api = new Api("https://api.movies2.nomoredomains.icu");
-/* const api = new Api("http://localhost:3001"); */
+/* const api = new Api("https://api.movies2.nomoredomains.icu"); */
+const api = new Api("http://localhost:3001");
 
 export default api;

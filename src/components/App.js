@@ -31,7 +31,11 @@ function App() {
   const [email, setEmail] = React.useState(currentUser.email);
   const [password, setPassword] = React.useState(currentUser.password);
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [moviesList, setMoviesList] = React.useState([]);
+  const [moviesList, setMoviesList] = React.useState(
+    localStorage.getItem("beatFilm") === null
+      ? []
+      : JSON.parse(localStorage.getItem("beatFilm"))
+  );
   const [newFilterList, setNewFilterList] = React.useState(
     JSON.parse(localStorage.getItem("newListMovie")) === null
       ? moviesList
@@ -59,11 +63,29 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function getMovie() {
+    if (JSON.parse(localStorage.getItem("beatFilm")).length === 0) {
+      movieApi
+        .getInitialMovies()
+        .then((data) => {
+          setMoviesList(data);
+          setPreloader(true);
+          localStorage.setItem("beatFilm", JSON.stringify(data));
+        })
+        .finally(() => setPreloader(false))
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
   React.useEffect(() => {
-    getMovie();
-    getSaveMovies();
-    setSaveSearchMovies(saveMovies);
-  }, []);
+    if (localStorage.loggedIn === "true") {
+      getMovie(JSON.parse(localStorage.getItem("beatFilm")));
+      getSaveMovies();
+      setSaveSearchMovies(saveMovies);
+    }
+  }, [localStorage.loggedIn]);
 
   function handleButtonMore(e) {
     e.preventDefault();
@@ -141,32 +163,11 @@ function App() {
     setLoggedIn(!loggedIn);
   }
 
-  function getMovie() {
-    if (
-      !JSON.parse(localStorage.getItem("newListMovie")) ||
-      JSON.parse(localStorage.getItem("newListMovie")).length === 0
-    ) {
-      movieApi
-        .getInitialMovies()
-        .then((data) => {
-          setMoviesList(data);
-          setPreloader(true);
-        })
-        .finally(() => setPreloader(false))
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setPreloader(false);
-      return JSON.parse(localStorage.getItem("newListMovie"));
-    }
-  }
-
   React.useEffect(() => {
     if (localStorage.loggedIn === "true") {
       getUser();
     }
-  }, [moviesList, saveMovies]);
+  }, []);
 
   function getUser() {
     api
@@ -176,7 +177,9 @@ function App() {
         setCurrentUser(user);
       })
       .catch((err) => {
-        logout();
+        if (err.status === 401) {
+          logout();
+        }
         console.log(err);
       });
   }
@@ -193,7 +196,13 @@ function App() {
           handleSubmitSignIn(email, password);
         }
       })
-      .catch((err) => setErrStatusReg(err));
+      .catch((err) => {
+        if (err.status === 401) {
+          logout();
+        }
+
+        setErrStatusReg(err);
+      });
   }
 
   function handleSubmitSignIn(email, password) {
@@ -212,12 +221,11 @@ function App() {
     api
       .setUser(user)
       .then((res) => {
-        getUser();
         setCurrentUser(res);
         setErrStatusProfile(200);
       })
       .catch((err) => {
-        setErrStatusProfile(err);
+        setErrStatusProfile(err.status);
       });
   }
 
@@ -233,7 +241,7 @@ function App() {
       localStorage.clear();
     });
   }
-  console.log(saveMovies);
+
   function handleSavedMovies(movie) {
     MainApi.setSavedMovies(movie)
       .then((res) => {
@@ -241,10 +249,11 @@ function App() {
         setSaveMovies(NewList);
       })
       .catch((err) => {
-        if (err) {
+        if (err.status === 401) {
           logout();
-          console.log(err);
         }
+
+        setErrStatusReg(err);
       });
   }
 
@@ -254,10 +263,10 @@ function App() {
         setSaveMovies(saveMovies.filter((movie) => movie._id !== res._id));
       })
       .catch((err) => {
-        if (err) {
+        if (err.status === 401) {
           logout();
-          console.log(err);
         }
+        setErrStatusReg(err);
       });
   }
 
@@ -357,6 +366,7 @@ function App() {
               <ProtectedRoute isLogged={loggedIn}>
                 <Profile
                   errStatus={errStatusProfile}
+                  setErrStatus={setErrStatusProfile}
                   isLoggedIn={loggedIn}
                   onUpdateUser={handleUpdateUser}
                   onLogout={handleLogout}

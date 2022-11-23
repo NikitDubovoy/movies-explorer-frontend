@@ -1,5 +1,5 @@
-const BASE_URL = "https://api.movies2.nomoredomains.icu";
-/* const BASE_URL = "http://localhost:3001"; */
+/* const BASE_URL = "https://api.movies2.nomoredomains.icu"; */
+const BASE_URL = "http://localhost:3001";
 
 function getResponseData(data) {
   if (data.ok) {
@@ -36,7 +36,7 @@ export const authorize = (email, password) => {
     body: JSON.stringify({ email, password }),
   }).then((response) => {
     if (response.status === 200) {
-      /*       localStorage.setItem("token", response.token); */
+      localStorage.setItem("beatFilm", JSON.stringify([]));
       localStorage.setItem("loggedIn", true);
     } else {
       return getResponseData(response.status);

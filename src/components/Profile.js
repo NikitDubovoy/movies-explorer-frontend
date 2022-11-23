@@ -11,10 +11,9 @@ function Profile(props) {
   const [userEmail, setUserEmail] = React.useState(currentUser.email);
   const [readOnlyName, setReadOnlyName] = React.useState(false);
   const [readOnlyEmail, setReadOnlyEmail] = React.useState(false);
+  const [classNameServerMessage, setClassNameServerMessage] =
+    React.useState("");
   const serverMessage = useValidationServerStatus(props.errStatus);
-  const classNameServerMessage = `${
-    serverMessage === "Успешно" ? "profile__success" : "profile__server-error"
-  }`;
   const classNameText = "profile__error";
   const [buttonClassName, setButtonClassName] = React.useState(
     "profile__button profile__button_active"
@@ -27,12 +26,24 @@ function Profile(props) {
     "profile__button-save"
   );
 
+  React.useEffect(() => {
+    props.setErrStatus(null);
+  }, [props.errStatus]);
+
+  React.useEffect(() => {
+    if (props.errStatus === 200 || props.errStatus === null) {
+      setClassNameServerMessage("profile__success");
+    } else {
+      setClassNameServerMessage("profile__server-error");
+    }
+  }, [props.errStatus]);
+
   const name = useValieInput(
-    userName || "",
+    currentUser.name || "",
     {
       isMaxLength: 30,
       isMinLength: 2,
-      isValueEquality: userName,
+      isValueEquality: currentUser.name,
     },
     classNameText
   );
@@ -54,7 +65,7 @@ function Profile(props) {
   }, [name.value, email.value]);
 
   React.useEffect(() => {
-    if (email.value != userEmail || name.value != userName) {
+    if (email.value !== userEmail || name.value !== userName) {
       setButtonClassName("profile__button");
       setExitButtonClassName("profile__button");
       setSaveButtonClassName(
@@ -70,21 +81,15 @@ function Profile(props) {
       name: name.value,
     });
   }
-
-  React.useEffect(() => {
-    if (Object.keys(currentUser).length) {
-      setUserEmail(currentUser.email);
-      setUserName(currentUser.name);
-    }
-    console.log(currentUser);
-  }, [currentUser]);
-
   return (
     <div className="page">
       <main className="profile">
         <Header isLoggedIn={props.isLoggedIn} />
-        <form className="profile__form" onSubmit={handleSubmitProfile}>
-          <h2 className="profile__title">Привет, {userName}!</h2>
+        <form
+          className="profile__form"
+          onSubmit={(e) => handleSubmitProfile(e)}
+        >
+          <h2 className="profile__title">Привет, {currentUser.name}!</h2>
           <label className="profile__label">
             <span className="profile__label-text">Имя</span>
             <input
@@ -116,7 +121,11 @@ function Profile(props) {
             </span>
           </label>
           <span className={classNameServerMessage}>{serverMessage}</span>
-          <button type="submit" className={buttonClassName}>
+          <button
+            type="submit"
+            className={buttonClassName}
+            disabled={name.isValidate && email.isValidate}
+          >
             Редактировать
           </button>
           <button
