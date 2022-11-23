@@ -38,7 +38,7 @@ function App() {
   );
   const [newFilterList, setNewFilterList] = React.useState(
     JSON.parse(localStorage.getItem("newListMovie")) === null
-      ? moviesList
+      ? []
       : JSON.parse(localStorage.getItem("newListMovie"))
   );
   const [valueSearch, setValueSearch] = React.useState(search);
