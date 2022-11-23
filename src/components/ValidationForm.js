@@ -9,7 +9,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
   const inputClassName = valid.inputClassName;
   const [isFocus, setFocus] = React.useState(false);
   const [errorSpanClassName, setErrorSpanClassName] = React.useState("");
-
+  console.log(errorText);
   React.useEffect(() => {
     if (errorMessages.length != 0) {
       const message = errorMessages[0];
@@ -17,7 +17,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
     } else {
       setErrorText("");
     }
-  }, [errorMessages.length]);
+  }, [value, errorMessages.length]);
 
   React.useEffect(() => {
     if (!isFocus) {
@@ -59,7 +59,7 @@ const useValidation = (value, validationRules) => {
 
   function addErrorMessage(textError) {
     if (errorMessage.indexOf(textError) === -1) {
-      setErrorMessage((errorMessage) => [...errorMessage, textError]);
+      setErrorMessage((errorMessage) => [textError, ...errorMessage]);
       setInputClassName("register__form-input register__form-input_error");
     }
   }
