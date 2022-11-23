@@ -17,7 +17,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
     } else {
       setErrorText("");
     }
-  }, [isValidate]);
+  }, [errorMessages.length]);
 
   React.useEffect(() => {
     if (!isFocus) {
@@ -25,7 +25,7 @@ export const useValieInput = (initValue, rules, classNameError) => {
     } else {
       setErrorSpanClassName(`${classNameError} ${classNameError}_active`);
     }
-  });
+  }, [isFocus]);
 
   const onFocus = () => {
     setFocus(true);
@@ -74,6 +74,17 @@ const useValidation = (value, validationRules) => {
   useEffect(() => {
     for (const valid in validationRules) {
       switch (valid) {
+        case "isEmail":
+          const reg =
+            /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+          if (!reg.test(String(value).toLowerCase())) {
+            setEmail(true);
+            addErrorMessage("Введите E-mail адрес.");
+          } else {
+            setEmail(false);
+            removeErrorMessage("Введите E-mail адрес.");
+          }
+          break;
         case "isValueEquality":
           if (value == validationRules[valid]) {
             setValueEquality(true);
@@ -109,17 +120,6 @@ const useValidation = (value, validationRules) => {
             removeErrorMessage(
               `Минимальное кол-во символов: ${validationRules[valid]}.`
             );
-          }
-          break;
-        case "isEmail":
-          const reg =
-            /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-          if (!reg.test(String(value).toLowerCase())) {
-            setEmail(true);
-            addErrorMessage("Введите E-mail адрес.");
-          } else {
-            setEmail(false);
-            removeErrorMessage("Введите E-mail адрес.");
           }
           break;
         case "isEmpty":

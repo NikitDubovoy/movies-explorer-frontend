@@ -39,11 +39,11 @@ function Profile(props) {
   }, [props.errStatus]);
 
   const name = useValieInput(
-    currentUser.name || "",
+    userName || "",
     {
       isMaxLength: 30,
       isMinLength: 2,
-      isValueEquality: currentUser.name,
+      isValueEquality: userName,
     },
     classNameText
   );
@@ -51,7 +51,7 @@ function Profile(props) {
     userEmail || "",
     {
       isValueEquality: userEmail,
-      isEmail: false,
+      isEmail: true,
     },
     classNameText
   );
