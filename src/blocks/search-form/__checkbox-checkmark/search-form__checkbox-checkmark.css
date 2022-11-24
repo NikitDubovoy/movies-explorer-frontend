@@ -1,0 +1,32 @@
+.search-form__checkbox-checkmark {
+    background-color: #EBEBEB;
+    width: 36px;
+    height: 20px;
+    border-radius: 20px;
+    display: inline-block;
+    position: relative;
+    transition: 0.3s;
+    margin-right: 13px;
+    z-index: -1;
+}
+
+.search-form__checkbox-checkmark:before {
+    content: "";
+    background-color: #fff;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    transition: 0.3s;
+}
+
+.search-form__checkbox:checked + .search-form__checkbox-checkmark:before {
+   left: 22px;
+}
+
+.search-form__checkbox:checked + .search-form__checkbox-checkmark {
+    background-color: #2BE080;
+ }

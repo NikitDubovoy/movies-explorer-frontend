@@ -1,0 +1,24 @@
+.about__list {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 51px 0 97px;
+    padding: 0;
+    column-gap: 52px;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px){
+    .about__list{
+        margin: 51px 0 80px;
+        column-gap: 39px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .about__list{
+        flex-direction: column;
+        row-gap: 36px;
+        margin: 51px 0 49px;
+    }
+ }

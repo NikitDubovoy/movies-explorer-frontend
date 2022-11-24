@@ -1,0 +1,16 @@
+.popup-menu__block {
+    width: 68%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 400px){
+    .popup-menu__block {
+        width: 100%;
+    }    
+}

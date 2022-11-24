@@ -1,0 +1,12 @@
+.register__form-input {
+    width: calc(100% - 30px);
+    height: 16px;
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    border: none;
+    padding: 15px;
+}
+
+.register__form-input:last-of-type {
+    margin-bottom: 10px;
+}

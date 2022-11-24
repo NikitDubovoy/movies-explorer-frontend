@@ -1,0 +1,14 @@
+.popup-menu__link_account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(170, 170, 170, 0.2);
+    border-radius: 50px;
+    width: 95px;
+    height: 27px;
+    color: #000;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 209px;
+    padding: 0;
+}

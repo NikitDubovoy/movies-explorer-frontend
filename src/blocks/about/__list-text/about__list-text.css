@@ -1,0 +1,21 @@
+.about__list-text {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0px;
+}
+
+@media screen and (max-width: 768px){
+    .about__list-text{
+        column-gap: 38px;
+        line-height: 18px;
+        letter-spacing: -1.1px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .about__list-text{
+        font-size: 11px;
+        line-height: 16px;
+        letter-spacing: -0px;
+    }
+ }

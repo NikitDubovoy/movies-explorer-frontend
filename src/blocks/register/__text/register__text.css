@@ -1,0 +1,15 @@
+.register__text {
+    margin-top: 17px;
+    color: #A0A0A0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+@media screen and (max-width: 320px){
+    .register__text{
+        font-size: 12px;
+        margin-top: 14px;
+    }
+ }
+ 

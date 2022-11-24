@@ -1,0 +1,37 @@
+.search-form {
+    width: calc(100% - 140px);
+    padding: 0 70px;
+    margin: auto;
+    height: 152px;
+    display: grid;
+    column-gap: 10px;
+    row-gap: 11px;
+    grid-template-columns: auto 70px;
+    grid-template-rows: 44px 63px;
+    grid-template-areas:
+        "input button"
+        "checkbox checkbox";
+    border-bottom: 1px solid #E8E8E8;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    margin-top: 65px;
+    letter-spacing: 0px;
+}
+
+@media screen and (max-width: 768px){
+    .search-form {
+        width: calc(100% - 60px);
+        padding: 0 30px;
+        margin-top: 68px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .search-form {
+        width: calc(100% - 20px);
+        padding: 0 10px;
+        margin-top: 68px;
+        align-items: end;
+    }
+}

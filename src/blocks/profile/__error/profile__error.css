@@ -1,0 +1,29 @@
+.profile__error {
+    font-size: 10px;
+    height: 13px;
+    margin: 0 0 4px;
+    color: #FF3055;
+    text-align: end;
+    width: 100%;
+    display: inline-block;
+    visibility: hidden;
+}
+
+.profile__error:last-of-type {
+        color: #FF3055;
+        
+}
+
+@media screen and (max-width: 768px) {
+    .profile__error:last-of-type {
+        margin-bottom: 210px;
+    }
+    
+}
+
+@media screen and (max-width: 320px) {
+    .profile__error:last-of-type {
+        margin-bottom: 375px;
+    }
+    
+}

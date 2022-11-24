@@ -1,0 +1,9 @@
+.header__account_active {
+    display: flex;
+}
+
+@media screen and (max-width: 768px){
+    .header__account_active{
+        display: none;
+    }
+ }

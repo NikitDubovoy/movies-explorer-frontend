@@ -1,0 +1,27 @@
+.techs__text {
+    max-width: 460px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0 auto 100px;
+    letter-spacing: -0.57px;
+}
+
+@media screen and (max-width: 768px){
+    .techs__text{
+        max-width: 405px;
+        margin: 0 auto 80px;
+        letter-spacing: -0.57px;
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .techs__text{
+        font-size: 11px;
+        line-height: 16px;
+        max-width: 255px;
+        letter-spacing: -0.5px;
+        margin: 0 auto 49px;
+    }
+ }

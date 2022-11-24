@@ -1,0 +1,5 @@
+.about__scale {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
