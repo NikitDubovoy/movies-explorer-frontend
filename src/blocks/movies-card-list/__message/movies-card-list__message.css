@@ -1,0 +1,9 @@
+.movies-card-list__message {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    width: 100%;
+    color: #A0A0A0;
+    letter-spacing: 1px;
+    display: none;
+}

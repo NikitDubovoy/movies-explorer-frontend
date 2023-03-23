@@ -1,0 +1,18 @@
+.about__scale-no-filing {
+    width: 80%;
+    height: 18px;
+    padding: 9px 0 9px;
+    background-color: #F2F2F2;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.1px;
+}
+
+@media screen and (max-width: 500px){
+    .about__scale-no-filing {
+        width: 65%;
+        font-size: 11px;
+        padding: 12px 0 6px;
+    }
+ }

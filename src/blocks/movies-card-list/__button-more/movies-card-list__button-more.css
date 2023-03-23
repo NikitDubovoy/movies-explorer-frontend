@@ -1,0 +1,28 @@
+.movies-card-list__button-more {
+    width: 100%;
+    margin: auto;
+    height: 36px;
+    display: none;
+    border: none;
+    border-radius: 6px;
+    background-color: #F9F9F9;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px){
+    .movies-card-list__button-more {
+        width: calc(100% - 60px);
+        margin-top: 83px;
+
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .movies-card-list__button-more {
+        width: calc(100% - 10px);
+        margin-top: 79px;
+
+    }
+ }

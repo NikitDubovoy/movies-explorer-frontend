@@ -1,0 +1,19 @@
+.search-form__button {
+    width: 70px;
+    height: 44px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 15px 0;
+    background-color: #3456F3;
+    border-radius: 3px;
+    grid-area: button;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-form__button:hover {
+    background-color: rgba(52, 86, 243, 0.8);
+    transition: 0.3s;
+}

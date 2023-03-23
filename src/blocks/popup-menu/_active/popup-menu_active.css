@@ -1,0 +1,6 @@
+.popup-menu_active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+    transition: visibility 0.4s, opacity 0.4s linear;
+}

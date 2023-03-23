@@ -1,0 +1,25 @@
+.portfolio__list-element {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #E6E6E6;
+    margin-bottom: 15px;
+}
+
+.portfolio__list-element:last-child {
+    border: none;
+}
+
+@media screen and (max-width: 768px){
+    .portfolio__list-element{
+        letter-spacing: -1.1px; 
+    }
+ }
+
+ @media screen and (max-width: 320px){
+    .portfolio__list-element{
+        margin-bottom: 21px;
+        padding-bottom: 18px;
+    }
+ }

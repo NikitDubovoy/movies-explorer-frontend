@@ -1,0 +1,13 @@
+.register {
+    display: block;
+    max-width: 396px;
+    margin: auto;
+    padding-top: 70px;
+    letter-spacing: 0px;
+}
+
+@media screen and (max-width: 454px){
+    .register{
+        padding: 57px 30px 0;
+    }
+ }
