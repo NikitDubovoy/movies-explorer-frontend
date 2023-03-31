@@ -19,4 +19,4 @@
   ```npm install```
 
 ## Запуск
-npm start
+ ```npm start```
